@@ -148,7 +148,7 @@ export default function FeedbackOverlay() {
            <motion.div 
              initial={{ top: `${startPos.y}%`, left: `${startPos.x}%` }}
              animate={isSummitCelebration ? { top: [`${startPos.y}%`, `${startPos.y - 10}%`, `${targetPos.y}%`], left: [`${startPos.x}%`, `${targetPos.x}%`, `${targetPos.x}%`] } : { top: `${targetPos.y}%`, left: `${targetPos.x}%` }}
-             transition={isSummitCelebration ? { duration: 1.5, ease: "easeOut" } : { duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+             transition={isSummitCelebration ? { duration: 3.5, ease: "easeOut" } : { duration: 2.5, ease: [0.22, 1, 0.36, 1] }}
              className="absolute -translate-x-1/2 -translate-y-[75%]"
            >
               <ClimberCharacter 
