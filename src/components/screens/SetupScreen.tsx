@@ -16,13 +16,13 @@ export default function SetupScreen() {
   const selectedDream = DREAM_OPTIONS.find(d => d.id === selectedId);
 
   return (
-    <div className="relative h-full w-full flex items-center justify-center bg-mt-dark p-6 overflow-auto pb-24 lg:pb-32">
+    <div className="relative h-full w-full flex items-start lg:items-center justify-center bg-mt-dark px-6 pt-16 pb-24 lg:pt-10 lg:pb-32 overflow-y-auto">
       <ParticleBackground type="stars" />
       
       <motion.div 
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="relative z-10 w-full max-w-5xl glass p-6 md:p-12 rounded-3xl"
+        className="relative z-10 w-full max-w-5xl glass p-6 md:p-12 rounded-3xl my-6"
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Left Side: Inputs */}
