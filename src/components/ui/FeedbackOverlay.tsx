@@ -23,6 +23,11 @@ export default function FeedbackOverlay() {
   // Find the explanation for what happened (correct or wrong)
   const selectedOption = question.options.find(o => o.correct === lastAnswerCorrect);
 
+  const isSummitCelebration = lastAnswerCorrect && correctAnswersCount === 5;
+  const mobileClimbDuration = isSummitCelebration ? 3.5 : 2.5;
+  const mobileTextDelayMs = 2500;
+  const mobileMountainDelayMs = Math.round(mobileClimbDuration * 1000 + 600);
+
   const [phase, setPhase] = useState<'text' | 'mountain'>('text');
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 1024 : false);
   const [animatedProgress, setAnimatedProgress] = useState(
@@ -37,23 +42,20 @@ export default function FeedbackOverlay() {
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
-    const isSummitCelebration = lastAnswerCorrect && correctAnswersCount === 5;
     if (isMobile) {
       if (phase === 'text') {
-        timer = setTimeout(() => setPhase('mountain'), 2500);
+        timer = setTimeout(() => setPhase('mountain'), mobileTextDelayMs);
       } else if (phase === 'mountain') {
         setAnimatedProgress(correctAnswersCount);
-        timer = setTimeout(() => nextQuestion(), isSummitCelebration ? 4000 : 2000);
+        timer = setTimeout(() => nextQuestion(), mobileMountainDelayMs);
       }
     } else {
       timer = setTimeout(() => nextQuestion(), isSummitCelebration ? 4000 : 3000);
     }
     return () => clearTimeout(timer);
-  }, [nextQuestion, isMobile, phase, correctAnswersCount, lastAnswerCorrect]);
+  }, [nextQuestion, isMobile, phase, correctAnswersCount, lastAnswerCorrect, isSummitCelebration, mobileMountainDelayMs, mobileTextDelayMs]);
 
   if (lastAnswerCorrect === null) return null;
-
-  const isSummitCelebration = lastAnswerCorrect && correctAnswersCount === 5;
 
   const targetPos = getClimberPosition(correctAnswersCount);
   const startPos = lastAnswerCorrect ? getClimberPosition(correctAnswersCount - 1) : targetPos;
@@ -64,6 +66,7 @@ export default function FeedbackOverlay() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
       className={`fixed inset-0 lg:left-[40%] z-50 flex items-center justify-center p-8 backdrop-blur-xl ${
         isSummitCelebration ? 'bg-indigo-950/90' : (lastAnswerCorrect ? 'bg-green-950/90' : 'bg-red-950/90')
       }`}
@@ -129,6 +132,7 @@ export default function FeedbackOverlay() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
       className="fixed inset-0 z-[60] bg-sky-night flex flex-col items-center justify-center lg:hidden"
     >
       {/* Top HUD */}
@@ -148,8 +152,8 @@ export default function FeedbackOverlay() {
            <motion.div 
              initial={{ top: `${startPos.y}%`, left: `${startPos.x}%` }}
              animate={isSummitCelebration ? { top: [`${startPos.y}%`, `${startPos.y - 10}%`, `${targetPos.y}%`], left: [`${startPos.x}%`, `${targetPos.x}%`, `${targetPos.x}%`] } : { top: `${targetPos.y}%`, left: `${targetPos.x}%` }}
-             transition={isSummitCelebration ? { duration: 3.5, ease: "easeOut" } : { duration: 2.5, ease: [0.22, 1, 0.36, 1] }}
-             className="absolute -translate-x-1/2 -translate-y-[75%]"
+             transition={isSummitCelebration ? { duration: mobileClimbDuration, ease: "easeOut" } : { duration: mobileClimbDuration, ease: [0.22, 1, 0.36, 1] }}
+             className="absolute -translate-x-1/2 translate-y-[-75%]"
            >
               <ClimberCharacter 
                 state={isSummitCelebration ? 'celebrate' : (lastAnswerCorrect ? 'celebrate' : 'stumble')} 
