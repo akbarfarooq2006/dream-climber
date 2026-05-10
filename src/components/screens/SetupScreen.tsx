@@ -16,7 +16,7 @@ export default function SetupScreen() {
   const selectedDream = DREAM_OPTIONS.find(d => d.id === selectedId);
 
   return (
-    <div className="relative h-full w-full flex items-start lg:items-center justify-center bg-mt-dark px-6 pt-16 pb-24 lg:pt-10 lg:pb-32 overflow-y-auto">
+    <div className="relative h-full w-full flex items-start lg:items-center justify-center bg-mt-dark px-6 pt-16 pb-24 lg:pt-44 lg:pb-32 overflow-y-auto">
       <ParticleBackground type="stars" />
       
       <motion.div 
