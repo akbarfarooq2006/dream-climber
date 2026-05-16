@@ -58,7 +58,7 @@ See Environment Variables for details.
 npm run dev
 ```
 
-App runs at http://localhost:3000.
+App runs at https://dream-climber.vercel.app/.
 
 ## Usage
 
